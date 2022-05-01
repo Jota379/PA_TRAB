@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class Apoio_poeContext implements Serializable {
+    private static final long serialVersionUID=1L;
     Apoio_poe ap;
     IApoio_poeState estado;
 

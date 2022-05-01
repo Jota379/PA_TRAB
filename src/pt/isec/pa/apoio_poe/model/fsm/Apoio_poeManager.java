@@ -6,7 +6,7 @@ import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
 import java.io.*;
 
-public class Apoio_poeManager implements Serializable{
+public class Apoio_poeManager{
     Apoio_poeContext apc;
     private static final String FILENAME = "apoe.bin";
 

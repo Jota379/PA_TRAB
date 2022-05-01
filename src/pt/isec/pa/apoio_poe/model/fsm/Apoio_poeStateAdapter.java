@@ -4,7 +4,9 @@ import pt.isec.pa.apoio_poe.model.data.Aluno;
 import pt.isec.pa.apoio_poe.model.data.Docente;
 import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
-abstract public class Apoio_poeStateAdapter implements IApoio_poeState{
+import java.io.Serializable;
+
+abstract public class Apoio_poeStateAdapter implements IApoio_poeState, Serializable {
     Apoio_poe ap;
     Apoio_poeContext context;
 

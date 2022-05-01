@@ -1,6 +1,8 @@
 package pt.isec.pa.apoio_poe.model.data.propostas;
 
-public class Projeto extends Proposta {
+import java.io.Serializable;
+
+public class Projeto extends Proposta  {
     String siglasRamos;
     String titulo;
     String emailDocente;

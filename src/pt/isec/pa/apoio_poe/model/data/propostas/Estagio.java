@@ -1,5 +1,7 @@
 package pt.isec.pa.apoio_poe.model.data.propostas;
 
+import java.io.Serializable;
+
 public class Estagio extends Proposta {
     String siglasRamos;
     String titulo;
