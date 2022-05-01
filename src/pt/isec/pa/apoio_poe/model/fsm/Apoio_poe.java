@@ -11,7 +11,7 @@ public class Apoio_poe implements Serializable {
     Set<Proposta> listaPropostas;
     Set<Aluno> listaAlunos;
     Set<Docente> listaDocentes;
-    Set<Candidarura> listaCandidaturas;
+    Set<Candidatura> listaCandidaturas;
 
     public Apoio_poe() {
         this.listaPropostas = new HashSet<>();
