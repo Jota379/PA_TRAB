@@ -9,4 +9,20 @@ public class CandidaturaState extends Apoio_poeStateAdapter {
     public Apoio_poeState getEstado() {
         return Apoio_poeState.CANDIDATURA;
     }
+
+    @Override
+    public void gerirCandidaturas() {
+        changeState(Apoio_poeState.GERIR_CAND);
+    }
+
+    @Override
+    public void voltar() {
+        changeState(Apoio_poeState.CONFIGURACAO);
+    }
+
+    @Override
+    public boolean avancar() {
+        changeState(Apoio_poeState.ATRIBUICAO_PROP);
+        return true;
+    }
 }

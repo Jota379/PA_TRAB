@@ -9,4 +9,9 @@ public class GerirOrientadoresState extends Apoio_poeStateAdapter {
     public Apoio_poeState getEstado() {
         return Apoio_poeState.GERIR_ORIENTADORES;
     }
+
+    @Override
+    public void voltar() {
+        changeState(Apoio_poeState.ATRIBUICAO_ORIENTADORES);
+    }
 }

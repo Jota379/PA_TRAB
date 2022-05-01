@@ -9,4 +9,15 @@ public class AtribuicaoPropostaState extends Apoio_poeStateAdapter {
     public Apoio_poeState getEstado() {
         return Apoio_poeState.ATRIBUICAO_PROP;
     }
+
+    @Override
+    public void voltar() {
+        changeState(Apoio_poeState.CANDIDATURA);
+    }
+
+    @Override
+    public boolean avancar() {
+        changeState(Apoio_poeState.ATRIBUICAO_ORIENTADORES);
+        return true;
+    }
 }

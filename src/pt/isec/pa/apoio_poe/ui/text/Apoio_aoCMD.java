@@ -481,26 +481,43 @@ public class Apoio_aoCMD {
     }
 
     private void candidaturaUI() {
-
+        switch (PAInput.chooseOption("Candidatura(EM DESENVOLVIMENTO)","Gerir Candidaturas","Avançar","voltar")){
+            case 1->fsm.gerirCandidaturas();
+            case 2->fsm.avancar();
+            case 3 ->fsm.voltar();
+        }
     }
 
     private void gerirCandidaturaUI() {
-
+        switch (PAInput.chooseOption("Gerir Candidaturas(EM DESENVOLVIMENTO)","voltar")){
+            case 1 ->fsm.voltar();
+        }
     }
 
     private void atribuicaoPropostaUI() {
-
+        switch (PAInput.chooseOption("Atribuicao Propostas(EM DESENVOLVIMENTO)","Avançar","voltar")){
+            case 1->fsm.avancar();
+            case 2 ->fsm.voltar();
+        }
     }
 
     private void atribuicaoOrientadoresUI() {
-
+        switch (PAInput.chooseOption("AtribuicaoOrientadores(EM DESENVOLVIMENTO)","Gerir Orientadores","Avançar","voltar")){
+            case 1->fsm.gerirOrientadores();
+            case 2->fsm.avancar();
+            case 3 ->fsm.voltar();
+        }
     }
 
     private void gerirOrientadoresUI() {
-
+        switch (PAInput.chooseOption("Gerir Orientadores(EM DESENVOLVIMENTO)","voltar")){
+            case 1 ->fsm.voltar();
+        }
     }
 
     private void consultaUI() {
-
+        switch (PAInput.chooseOption("Cunsulta(EM DESENVOLVIMENTO)","sair")){
+            case 1 ->finish=true;
+        }
     }
 }

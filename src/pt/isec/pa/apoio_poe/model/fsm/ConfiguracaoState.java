@@ -24,4 +24,10 @@ public class ConfiguracaoState extends Apoio_poeStateAdapter {
     public void gerirPropostas() {
         changeState(Apoio_poeState.GERIR_PROPOSTAS);
     }
+
+    @Override
+    public boolean avancar() {
+        changeState(Apoio_poeState.CANDIDATURA);
+        return true;
+    }
 }

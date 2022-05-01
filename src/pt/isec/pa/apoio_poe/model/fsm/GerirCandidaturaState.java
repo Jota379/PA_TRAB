@@ -14,4 +14,9 @@ public class GerirCandidaturaState extends Apoio_poeStateAdapter {
     public boolean findDocente(String email) {
         return false;
     }
+
+    @Override
+    public void voltar() {
+        changeState(Apoio_poeState.CANDIDATURA);
+    }
 }
