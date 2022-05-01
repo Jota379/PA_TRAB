@@ -114,9 +114,8 @@ public class Apoio_aoCMD {
                 try{
                     String line = sc.nextLine();
                     String[] dividedLine = line.split(",");
-                    System.out.println(dividedLine[0]);
-                    if(dividedLine.length!=7)
-                        throw new Exception("Número de itens na linha diferente do esperado:\t" + line);
+                    //if(dividedLine.length!=7)
+                    //    throw new Exception("Número de itens na linha diferente do esperado:\t" + line);
 
 
                     long numAluno = Long.parseLong(dividedLine[0]);
