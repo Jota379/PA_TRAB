@@ -1,0 +1,88 @@
+ESTADO |||||||||||||||||||||| MENU QUE APARECE
+
+LoadState
+		- fazer load de binário
+		- go to Configuração
+
+Configuração 
+		- goto gerir alunos
+		- goto gerir docentes
+		- goto gerir projeto
+		- fechar estado
+		- goto estado Candidatura
+		- guardar em ficheiro
+
+GerirAlunos	
+		- Inserção
+		- consulta
+		- edição 		(ainda nao precisa fazer)
+		- eliminação		(ainda nao precisa fazer)
+		- goto configuração
+
+GerirDocentes
+		- Inserção
+		- consulta
+		- edição 		(ainda nao precisa fazer)
+		- eliminação		(ainda nao precisa fazer)
+		- goto configuração
+
+GerirProjetosEstagios
+		- Inserção
+		- consulta
+		- edição 		(ainda nao precisa fazer)
+		- eliminação		(ainda nao precisa fazer)
+		- goto configuração
+
+Candidatura
+		- goto Gerir Candidaturas
+		- listar alunos
+		- listar propostas
+		- fechar fase
+		- goto configuração
+		- goto AtribuiçãoPropostas
+
+Gerir Candidaturas
+		- Inserção
+		- consulta
+		- edição 		(ainda nao precisa fazer)
+		- eliminação		(ainda nao precisa fazer)
+		- goto Candidatura ----
+
+AtribuiçãoPorpostas
+		- atribuição manual
+		- remoção manual atrubuição proposta
+		- listagem alunos com proposta
+		- listagem propostas
+		- goto Candidatura
+		- goto AtribuiçãoOrientadores
+		- Atribuição automática das autopropostas ou propostas de docentes
+		- Atribuição automática de uma proposta disponível aos alunos
+		- fechar fase	
+AtribuiçãoManual
+		- 
+RemocaoManuaAtribuiçãoProposta
+		- goto AtribuiçãoPorpostas
+		- eliminar atribuição proposta especifica
+		- eliminar atribuição todas as propostas
+
+AtribuiçãoOrientadores
+		- associação automática orientadores <-> estagio
+		- goto gerirOrientadores
+		- listagem geral cenas
+		- goto AtribuiçãoPorpostas
+		- goto Consulta (fechr fase)
+
+GerirOrientadores
+		- Atribuição
+		- consulta 
+		- alteração
+		- eliminação 
+		- goto AtribuiçãoOrientadores
+
+Consulta
+		▪ lista de estudantes com propostas atribuídas.
+		▪ lista de estudantes sem propostas atribuídas e com opções de candidatura.
+		▪ conjunto de propostas disponíveis.
+		▪ conjunto de propostas atribuídas.
+		▪ número de orientações por docente, em média, mínimo, máximo, e por docente especificado.
+		▪ outros dados (poderão ser incluídas outras listagens que sejam consideradas pertinentes pelo grupo).

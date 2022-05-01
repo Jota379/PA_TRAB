@@ -1,0 +1,24 @@
+ |
+configuração     (boolean fecharEstado)
+        <->     gerir alunos
+    |    <->    gerir docentes
+    |    <->    gerir projeto
+    |
+Candidatura    (boolean fecharEstado)
+        <->    Inserção, consulta, edição e eliminação
+        <->    listagem de alunos
+        <->    listagem de propostas
+
+Atribuição de propostas (boolean fecharEstado)
+
+        <->     Atribuição manual de propostas
+        <->     Remoção manual de uma atribuição previamente realizada
+        <->     listagem alunos
+        <->    listagem propostas
+
+Atribuição de orientadores (boolean fecharEstado)
+        <->    Atribuição, consulta, alteração e eliminação de um orientador do ISEC
+        <->    listagem cenas
+
+
+Consulta    (não dá paravoltar para tras (one way))
