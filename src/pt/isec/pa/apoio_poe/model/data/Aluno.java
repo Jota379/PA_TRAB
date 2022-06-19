@@ -112,11 +112,6 @@ public class Aluno implements Serializable {
     }
 
     public String toStringFile() {
-        return num +","+nome +
-                "," + email +
-                "," + siglaCurso +
-                "," + siglaRamo +
-                "," + classificacao +
-                "," + possibilidade;
+        return num +","+nome + "," + email + "," + siglaCurso + "," + siglaRamo + "," + classificacao + "," + possibilidade;
     }
 }

@@ -6,7 +6,6 @@ public class Projeto extends Proposta  {
     String siglasRamos;
     String titulo;
     String emailDocente;
-    long numAluno;
 
     public Projeto(String siglasRamos, String titulo, String emailDocente) {
         super();

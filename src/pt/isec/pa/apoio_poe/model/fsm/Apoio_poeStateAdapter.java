@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.Aluno;
+import pt.isec.pa.apoio_poe.model.data.Candidatura;
 import pt.isec.pa.apoio_poe.model.data.Docente;
 import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
@@ -172,5 +173,75 @@ abstract public class Apoio_poeStateAdapter implements IApoio_poeState, Serializ
     @Override
     public Proposta getProposta(String id_da_proposta) {
         return null;
+    }
+
+    @Override
+    public boolean isClose() {
+        return false;
+    }
+
+    @Override
+    public String getlistaAsCand() {
+        return null;
+    }
+
+    @Override
+    public String getlistaAcCand() {
+        return null;
+    }
+
+    @Override
+    public String getlistaAauto() {
+        return null;
+    }
+
+    @Override
+    public String getlistaAutoPropostas() {
+        return null;
+    }
+
+    @Override
+    public String listaPropostasDocentes() {
+        return null;
+    }
+
+    @Override
+    public String PropostasComCand() {
+        return null;
+    }
+
+    @Override
+    public String PropostasSemCand() {
+        return null;
+    }
+
+    @Override
+    public void addCandidatura(long numero, String projID) {
+
+    }
+
+    @Override
+    public String listaCandidaturas() {
+        return null;
+    }
+
+    @Override
+    public boolean findCandidatura(long numAluno) {
+        return false;
+    }
+
+    @Override
+    public void remCandidatura(long numAluno) {
+
+    }
+
+    @Override
+    public void remCandidatura(long num, String id_da_proposta) {
+
+    }
+
+    @Override
+    public boolean addCandidatura(Candidatura c) {
+        return false;
     }
 }

@@ -30,4 +30,35 @@ public class ConfiguracaoState extends Apoio_poeStateAdapter {
         changeState(Apoio_poeState.CANDIDATURA);
         return true;
     }
+
+    @Override
+    public boolean fechar() {
+        if(ap.getARedes() <= ap.getPRedes() && ap.getASI() <= ap.getPSI() && ap.getADA() <= ap.getPDA()) {
+            ap.close = 1;
+            return avancar();
+        }
+        return false;
+    }
+
+    @Override
+    public String listaAlunos() {
+        return ap.listaAlunos();
+    }
+
+    @Override
+    public String listaDocentes() {
+        return ap.listaDocentes();
+    }
+
+    @Override
+    public String listaPropostas() {
+        return ap.listaPropostas();
+    }
+
+    @Override
+    public boolean isClose() {
+        if(ap.close >0)
+            return true;
+        return false;
+    }
 }

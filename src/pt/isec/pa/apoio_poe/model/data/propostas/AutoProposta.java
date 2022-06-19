@@ -2,7 +2,6 @@ package pt.isec.pa.apoio_poe.model.data.propostas;
 
 public class AutoProposta extends Proposta {
     String titulo;
-    long numAluno;
 
     public AutoProposta(String titulo, long numAluno) {
         super();
@@ -24,6 +23,7 @@ public class AutoProposta extends Proposta {
         this.titulo = titulo;
     }
 
+    @Override
     public long getNumAluno() {
         return numAluno;
     }
@@ -34,8 +34,8 @@ public class AutoProposta extends Proposta {
 
     @Override
     public String toString() {
-        return "T3," + ", Pid= " + Pid +
-                "titulo=" + titulo + ", numAluno= " + numAluno
+        return "T3," + "Pid= " + Pid +
+                ",titulo=" + titulo + ", numAluno= " + numAluno
                 ;
     }
 

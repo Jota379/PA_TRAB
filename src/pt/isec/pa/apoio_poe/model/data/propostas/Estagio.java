@@ -6,7 +6,6 @@ public class Estagio extends Proposta {
     String siglasRamos;
     String titulo;
     String identificacao;
-    long numAluno ;//caso esteja atribuido
 
     public Estagio(String siglasRamos, String titulo, String identificacao) {
         super();

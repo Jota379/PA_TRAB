@@ -4,7 +4,9 @@ import pt.isec.pa.apoio_poe.model.data.*;
 import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Apoio_poe implements Serializable {
@@ -12,6 +14,7 @@ public class Apoio_poe implements Serializable {
     Set<Aluno> listaAlunos;
     Set<Docente> listaDocentes;
     Set<Candidatura> listaCandidaturas;
+    int close=0;
 
     public Apoio_poe() {
         this.listaPropostas = new HashSet<>();
@@ -53,6 +56,13 @@ public class Apoio_poe implements Serializable {
             if(aluno.getNum() == n)
                 return true;
         return false;
+    }
+
+    public String findAlunoStr(long n){
+        for(Aluno aluno : listaAlunos)
+            if(aluno.getNum() == n)
+                return aluno.toString();
+        return null;
     }
 
     private Aluno findAlunoR(long n){
@@ -184,5 +194,160 @@ public class Apoio_poe implements Serializable {
             }
         }
         return false;
+    }
+
+    public int getARedes() {
+        int conta = 0;
+        for(Aluno aluno : listaAlunos)
+            if(aluno.getSiglaRamo().equalsIgnoreCase(Ramos.RAS.toString()))
+                conta++;
+        return conta;
+    }
+
+    public int getPRedes() {
+        int conta=0;
+        for(Proposta proposta : listaPropostas) {
+            if(proposta.toString().contains(Ramos.RAS.toString())) {
+                conta++;
+            }
+        }
+        return conta;
+    }
+
+
+    public int getASI() {
+        int conta = 0;
+        for(Aluno aluno : listaAlunos)
+            if(aluno.getSiglaRamo().equalsIgnoreCase(Ramos.SI.toString()))
+                conta++;
+        return conta;
+    }
+
+    public int getPSI() {
+        int conta=0;
+        for(Proposta proposta : listaPropostas) {
+            if(proposta.toString().contains(Ramos.SI.toString())) {
+                conta++;
+            }
+        }
+        return conta;
+    }
+
+    public int getADA() {
+        int conta = 0;
+        for(Aluno aluno : listaAlunos)
+            if(aluno.getSiglaRamo().equalsIgnoreCase(Ramos.DA.toString()))
+                conta++;
+        return conta;
+    }
+
+    public int getPDA() {
+        int conta=0;
+        for(Proposta proposta : listaPropostas) {
+            if(proposta.toString().contains(Ramos.DA.toString())) {
+                conta++;
+            }
+        }
+        return conta;
+    }
+
+    boolean PodeCandidatar(String projID,long num){
+        for(Proposta p : listaPropostas){
+            if(p.getNumAluno() == num)
+                return false;
+            if(p.getPid().equalsIgnoreCase(projID)){
+                if(p.getNumAluno() != 0)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public void addCandidatura(long numero, String projID) {
+        boolean fez=false;
+        boolean contem=false;
+        Set<String> aux = new HashSet<>();
+
+        if(PodeCandidatar(projID,numero)) {
+            for (Candidatura c : listaCandidaturas) {
+                if (c.getAlunoID() == numero) {
+                    for (String s : c.getNumstr()) {
+                        if (s.equalsIgnoreCase(projID)) {
+                            return;
+                        }
+                    }
+                    c.getNumstr().add(projID);
+                    fez = true;
+                }
+            }
+            if (!fez) {
+                aux.add(projID);
+                listaCandidaturas.add(new Candidatura(aux, numero));
+            }
+        }
+    }
+
+    public String listaCandidaturas() {
+        StringBuilder sb = new StringBuilder("Alunos: ");
+        if (listaCandidaturas ==null || listaCandidaturas.size()==0)
+            sb.append("Não ha Candidaturas");
+        else
+            for(Candidatura c : listaCandidaturas)
+                sb.append(String.format("\n %s",c.toString()));
+        return sb.toString();
+    }
+
+    public boolean findCandidatura(long numAluno) {
+        for(Candidatura c : listaCandidaturas){
+            if(c.getAlunoID() == numAluno)
+                return true;
+        }
+        return false;
+    }
+
+    public void remCandidatura(long numAluno) {
+        for(Candidatura c : listaCandidaturas){
+            if(c.getAlunoID() == numAluno) {
+                listaCandidaturas.remove(c);
+                return;
+            }
+        }
+    }
+
+    public void remCandidatura(long num, String id_da_proposta) {
+        for(Candidatura c : listaCandidaturas){
+            if(c.getAlunoID() == num)
+                c.getNumstr().remove(id_da_proposta);
+        }
+    }
+
+    public boolean addCandidatura(Candidatura cand) {
+        boolean fez=false;
+        boolean contem=false;
+
+        if(PodeCandidatar("teste", cand.getAlunoID())) {
+            for (Candidatura c : listaCandidaturas) {
+                if (c.getAlunoID() == cand.getAlunoID()) {
+                    for (String s : cand.getNumstr()) {
+                        for(String ss : c.getNumstr())
+                        if (s.equalsIgnoreCase(ss)) {
+                            contem=true;
+                        }
+                        if(!contem){
+                            c.getNumstr().add(s);
+                        }
+                        contem=false;
+                    }
+                    fez=true;
+                }
+            }
+            if (!fez) {
+                listaCandidaturas.add(cand);
+                fez=true;
+            }
+        }else{
+            return false;
+        }
+        return true;
     }
 }

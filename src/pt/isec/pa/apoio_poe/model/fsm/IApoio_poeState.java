@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.Aluno;
+import pt.isec.pa.apoio_poe.model.data.Candidatura;
 import pt.isec.pa.apoio_poe.model.data.Docente;
 import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
@@ -48,6 +49,34 @@ public interface IApoio_poeState {
     boolean findDocente(String email);
 
     Proposta getProposta(String id_da_proposta);
+
+    boolean isClose();
+
+    String getlistaAauto();
+
+    String getlistaAcCand();
+
+    String getlistaAsCand();
+
+    String getlistaAutoPropostas();
+
+    String listaPropostasDocentes();
+
+    String PropostasComCand();
+
+    String PropostasSemCand();
+
+    void addCandidatura(long numero, String projID);
+
+    String listaCandidaturas();
+
+    boolean findCandidatura(long numAluno);
+
+    void remCandidatura(long numAluno);
+
+    void remCandidatura(long num, String id_da_proposta);
+
+    boolean addCandidatura(Candidatura c);
 
     //Consulta
         //listas

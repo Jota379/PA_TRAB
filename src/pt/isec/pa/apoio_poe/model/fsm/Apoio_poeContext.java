@@ -1,6 +1,7 @@
 package pt.isec.pa.apoio_poe.model.fsm;
 
 import pt.isec.pa.apoio_poe.model.data.Aluno;
+import pt.isec.pa.apoio_poe.model.data.Candidatura;
 import pt.isec.pa.apoio_poe.model.data.Docente;
 import pt.isec.pa.apoio_poe.model.data.propostas.Proposta;
 
@@ -161,5 +162,63 @@ public class Apoio_poeContext implements Serializable {
 
     public Set<Proposta> getAllPropostas() {
         return ap.listaPropostas;
+    }
+
+    public boolean isClose() {
+        return estado.isClose();
+    }
+
+    public String getlistaAauto() {
+        return estado.getlistaAauto();
+    }
+    public String getlistaAcCand() {
+        return estado.getlistaAcCand();
+    }
+    public String getlistaAsCand() {
+        return estado.getlistaAsCand();
+    }
+
+    public String getlistaAutoPropostas() {
+        return estado.getlistaAutoPropostas();
+    }
+
+    public String listaPropostasDocentes() {
+        return estado.listaPropostasDocentes();
+    }
+
+    public String PropostasComCand() {
+        return estado.PropostasComCand();
+    }
+
+    public String PropostasSemCand() {
+        return estado.PropostasSemCand() ;
+    }
+
+    public void addCandidatura(long numero, String projID) {
+        estado.addCandidatura(numero,projID);
+    }
+
+    public String listaCandidaturas() {
+        return estado.listaCandidaturas();
+    }
+
+    public boolean findCandidatura(long numAluno) {
+        return estado.findCandidatura(numAluno);
+    }
+
+    public void remCandidatura(long numAluno) {
+        estado.remCandidatura(numAluno);
+    }
+
+    public void remCandidatura(long num, String id_da_proposta) {
+        estado.remCandidatura(num,id_da_proposta);
+    }
+
+    public boolean addCandidatura(Candidatura c) {
+        return estado.addCandidatura(c);
+    }
+
+    public Set<Candidatura> getAllCandidaturas() {
+        return ap.listaCandidaturas;
     }
 }

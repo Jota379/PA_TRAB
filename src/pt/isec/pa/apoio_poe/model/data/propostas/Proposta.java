@@ -9,6 +9,7 @@ public class Proposta implements Serializable {
     }
     private int idTemp;
     String Pid;//Projeto ID
+    long numAluno;
 
     public Proposta() {
 
@@ -46,5 +47,9 @@ public class Proposta implements Serializable {
 
     public String toStringFile() {
         return null;
+    }
+
+    public long getNumAluno() {
+        return numAluno;
     }
 }

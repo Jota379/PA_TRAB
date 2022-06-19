@@ -1,10 +1,7 @@
 package pt.isec.pa.apoio_poe.ui.text;
 
 import pt.isec.pa.apoio_poe.model.ModelLog;
-import pt.isec.pa.apoio_poe.model.data.Aluno;
-import pt.isec.pa.apoio_poe.model.data.Cursos;
-import pt.isec.pa.apoio_poe.model.data.Docente;
-import pt.isec.pa.apoio_poe.model.data.Ramos;
+import pt.isec.pa.apoio_poe.model.data.*;
 import pt.isec.pa.apoio_poe.model.data.propostas.AutoProposta;
 import pt.isec.pa.apoio_poe.model.data.propostas.Estagio;
 import pt.isec.pa.apoio_poe.model.data.propostas.Projeto;
@@ -56,13 +53,24 @@ public class Apoio_aoCMD {
     }
 
     private void configuracaoUI() {
-        switch (PAInput.chooseOption("Configuracao","Gerir Alunos","Gerir Docentes","Gerir Propostas","Fechar fase","Avançar","Savar Tudo")){
-            case 1->fsm.gerirAlunos();
-            case 2->fsm.gerirDocentes();
-            case 3->fsm.gerirPropostas();
-            case 4->fsm.fechar();
-            case 5->fsm.avancar();
-            case 7->fsm.save();
+        if (!fsm.isClose()) {
+            switch (PAInput.chooseOption("Configuracao", "Gerir Alunos", "Gerir Docentes", "Gerir Propostas", "Fechar fase", "Avançar", "Savar Tudo")) {
+                case 1 -> fsm.gerirAlunos();
+                case 2 -> fsm.gerirDocentes();
+                case 3 -> fsm.gerirPropostas();
+                case 4 -> { if(!fsm.fechar())
+                                System.out.println("Não existem propostas suficientes para todos os alunos");}
+                case 5 -> fsm.avancar();
+                case 6 -> fsm.save();
+            }
+        } else {
+            switch (PAInput.chooseOption("Configuracao FECHADA", "ver Alunos", "ver Docentes", "ver Propostas", "Avançar", "Savar Tudo")) {
+                case 1 -> System.out.println(fsm.listaAlunos());
+                case 2 -> System.out.println(fsm.listaDocentes());
+                case 3 -> System.out.println(fsm.listaPropostas());
+                case 4 -> fsm.avancar();
+                case 5 -> fsm.save();
+            }
         }
     }
 
@@ -109,48 +117,7 @@ public class Apoio_aoCMD {
     public void addAlunosFromFile(String filename) {
         //  FileReader fr;
         //  BufferedReader br;
-        try(Scanner sc = new Scanner(new FileReader(filename))){
-            while(sc.hasNextLine()){
-                try{
-                    String line = sc.nextLine();
-                    String[] dividedLine = line.split(",");
-                    //if(dividedLine.length!=7)
-                    //    throw new Exception("Número de itens na linha diferente do esperado:\t" + line);
-
-
-                    long numAluno = Long.parseLong(dividedLine[0]);
-                    String nomeAluno = dividedLine[1];
-                    String emailAluno = dividedLine[2];
-
-                    if(!dividedLine[3].equals("LEI-PL") && !dividedLine[3].equals("LEI"))
-                        throw new Exception("Curso diferente do esperado:\t" + dividedLine[3]);
-                    String curso = dividedLine[3];
-
-                    if(!dividedLine[4].equals("SI") && !dividedLine[4].equals("DA")&& !dividedLine[4].equals("RAS"))
-                        throw new Exception("Ramo diferente do esperado:\t" + dividedLine[4]);
-                    String ramo = dividedLine[4];
-
-                    double classif = Double.parseDouble(dividedLine[5]);
-
-                    boolean estagio=false;
-                    if(dividedLine[6].equals("true"))
-                        estagio = true;
-                    else if(dividedLine[6].equals("false"))
-                        estagio = false;
-                    else
-                        throw new Exception("Valor boolean diferente do esperado:\t" + dividedLine[6]);
-
-                    Aluno newAluno = new Aluno(numAluno, nomeAluno, emailAluno, Cursos.valueOf(curso),Ramos.valueOf(ramo), classif, estagio);
-
-                    if(!fsm.addAluno(newAluno))
-                        throw new Exception("Aluno com este email já existe:\t" + dividedLine[2]);
-                }catch(Exception e){
-                    continue;
-                }
-            }
-        }catch (Exception e){
-            System.err.println("Erro: Ficheiro <"+filename+"> contém falha");
-        }
+        fsm.addAlunosFromFile(filename);
     }
 
     public void exportAlunostoFile(String filename) {
@@ -229,26 +196,8 @@ public class Apoio_aoCMD {
     }
 
     public void addDocentesFromFile(String filename) {
-        try(Scanner sc = new Scanner(new FileReader(filename))){
-            while(sc.hasNextLine()){
-                try{
-                    String line = sc.nextLine();
-                    String[] dividedLine = line.split(",");
+        fsm.addDocentesFromFile(filename);
 
-                    String nome = dividedLine[0];
-                    String email =dividedLine[1];
-
-                    Docente newDocente = new Docente(nome, email);
-
-                    if(!fsm.addDocente(newDocente))
-                        throw new Exception("Docente com este email já existe:\t" + dividedLine[1]);
-                }catch(Exception e){
-                    continue;
-                }
-            }
-        }catch (Exception e){
-            System.err.println("Erro: Ficheiro <"+filename+"> contém falha");
-        }
     }
 
     public void exportDocentestoFile(String filename) {
@@ -273,84 +222,8 @@ public class Apoio_aoCMD {
     }
 
     private void addPropostaFromFile(String filename) {
-        try (Scanner sc = new Scanner(new FileReader(filename))) {
-            while (sc.hasNextLine()) {
-                Proposta newProposta;
+        fsm.addPropostaFromFile(filename);
 
-                try {
-                    String line = sc.nextLine();
-                    String[] dividedLine = line.split(",");
-
-                    String tipo = dividedLine[0];
-                    if (tipo.equals("T1")) {
-                        String idProp = dividedLine[1];
-                        if (idProp.length() != 4)
-                            throw new Exception("Proposta com id errado\t" + idProp);
-                        String ramos = dividedLine[2];
-
-                        String titulo = dividedLine[3];
-                        String entidade = dividedLine[4];
-                        System.out.println(entidade);
-
-
-                        if (dividedLine.length == 5)
-                            if (!fsm.addProposta(new Estagio(ramos, titulo, entidade, idProp)))
-                                throw new Exception("Proposta com este id já existe:\t" + dividedLine[2]);
-                        else if (dividedLine.length == 6) {
-                            long numAluno = Long.parseLong(dividedLine[5]);
-                                if (!fsm.addProposta(new Estagio(ramos, titulo, entidade, numAluno, idProp)))
-                                    throw new Exception("Proposta com este id já existe:\t" + dividedLine[2]);
-
-                        } else
-                            throw new Exception("Estágio com numero de informações erradas\t" + line);
-
-                    } else if (tipo.equals("T2")) {
-                        String idProp = dividedLine[1];
-                        if (idProp.length() != 4)
-                            throw new Exception("Proposta com id errado\t" + idProp);
-                        String ramos = dividedLine[2];
-                        String titulo = dividedLine[3];
-                        String docente = dividedLine[4];
-
-
-                        if (dividedLine.length == 5) {
-                            if (!fsm.addProposta(new Projeto(ramos, titulo, docente, idProp)))
-                                throw new Exception("Proposta com este id já existe:\t" + dividedLine[2]);
-                        }else if (dividedLine.length == 6) {
-                            long numAluno = Long.parseLong(dividedLine[5]);
-                            if (!fsm.addProposta(new Projeto(ramos, titulo, docente, numAluno, idProp)))
-                                throw new Exception("Proposta com este id já existe:\t" + dividedLine[2]);
-                        }else{
-                            throw new Exception("Projeto com numero de informações erradas\t" + line);
-                        }
-
-                    } if (tipo.equals("T3")) {
-                        String idProp = dividedLine[1];
-                        if (idProp.length() != 4)
-                            throw new Exception("Proposta com id errado\t" + idProp);
-                        String titulo = dividedLine[2];
-                        long numAluno = Long.parseLong(dividedLine[3]);
-
-
-                        if (dividedLine.length == 4)
-                            if (!fsm.addProposta(new AutoProposta( titulo, numAluno, idProp)))
-                                throw new Exception("Proposta com este id já existe:\t" + dividedLine[2]);
-                        else{
-                            throw new Exception("Projeto com numero de informações erradas\t" + line);
-                        }
-                    } else {
-                        throw new Exception("Proposta com tipo desconhecido\t" + tipo);
-                    }
-
-
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Erro: Ficheiro <" + filename + "> contém falha");
-        }
-        fsm.arranjaPropostaID();
     }
 
     private void exportPropostatoFile(String filename) {
@@ -453,14 +326,14 @@ public class Apoio_aoCMD {
     }
 
     private String pedeRamosProp(){
-        switch (PAInput.chooseOption("Tipo de Proposta","PA","RAS","SI","PA | RAS","PA | SI","RAS | SI","PA | RAS | SI")){
-            case 1 -> {return "PA";}
+        switch (PAInput.chooseOption("Tipo de Proposta","DA","RAS","SI","DA | RAS","DA | SI","RAS | SI","DA | RAS | SI")){
+            case 1 -> {return "DA";}
             case 2 -> {return "RAS";}
             case 3-> {return "SI";}
-            case 4-> {return "PA | RAS";}
-            case 5-> {return "PA | SI";}
+            case 4-> {return "DA | RAS";}
+            case 5-> {return "DA | SI";}
             case 6-> {return "RAS | SI";}
-            case 7->{return "PA | RAS | SI";}
+            case 7->{return "DA | RAS | SI";}
         }
         return null;
     }
@@ -480,17 +353,94 @@ public class Apoio_aoCMD {
     }
 
     private void candidaturaUI() {
-        switch (PAInput.chooseOption("Candidatura(EM DESENVOLVIMENTO)","Gerir Candidaturas","Avançar","voltar")){
+        switch (PAInput.chooseOption("Candidatura(EM DESENVOLVIMENTO)","Gerir Candidaturas","Listas de Alunos","Listas de Propostas","Fechar","Avançar","voltar")){
             case 1->fsm.gerirCandidaturas();
-            case 2->fsm.avancar();
-            case 3 ->fsm.voltar();
+            case 2->listasdealunosUI();
+            case 3->listadepropostasUI();
+            case 4->fsm.fechar();
+            case 5->fsm.avancar();
+            case 6 ->fsm.voltar();
         }
     }
 
-    private void gerirCandidaturaUI() {
-        switch (PAInput.chooseOption("Gerir Candidaturas(EM DESENVOLVIMENTO)","voltar")){
-            case 1 ->fsm.voltar();
+    private void listadepropostasUI() {
+        switch (PAInput.chooseOption("Gerir Candidaturas listas de Propostas","AutoPropostas","Propostas Docentes","Propostas com Cand","Propostas sem cand","voltar")) {
+            case 1 -> System.out.println(fsm.listaAutoPropostas());
+            case 2 -> System.out.println(fsm.listaPropostasDocentes());
+            case 3 -> System.out.println(fsm.PropostasComCand());
+            case 4 -> System.out.println(fsm.PropostasSemCand());
+            case 5 -> fsm.voltar();
         }
+    }
+
+    private void listasdealunosUI(){
+        switch (PAInput.chooseOption("Candidatura listas de alunos","com autoproposta","com candidatura já registada","sem candidatura registada","voltar")){
+            case 1-> System.out.println(fsm.listaAauto());
+            case 2-> System.out.println(fsm.listaAcCand());
+            case 3-> System.out.println(fsm.listaAsCand());
+            case 4 ->candidaturaUI();
+        }
+    }
+
+
+    private void gerirCandidaturaUI() {
+        switch (PAInput.chooseOption("CANDIDATURA\nGerir Candidaturas","Adicionar Candidaturas","Ver Candidaturas","Editar Candidaturas","Remover Candidaturas","Importar CSV","Exportar","Voltar")){
+            case 1->addCandidatura();
+            case 2-> System.out.println(fsm.listaCandidaturas());
+            case 3->editaCandidaturas();
+            case 4->eliminaCandidaturas();
+            case 5->addCandidaturaFromFile(PAInput.readString("FILENAME: ",true));
+            case 6->exportCandidaturatoFile(PAInput.readString("FILENAME: ",true));
+            case 7->fsm.voltar();
+        }
+
+    }
+
+    private void exportCandidaturatoFile(String filename) {
+        try {
+            fsm.exportCandidaturas(filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addCandidaturaFromFile(String readString) {
+        fsm.addCandidaturaFromFile(readString);
+    }
+
+    private void eliminaCandidaturas() {
+        long numAluno =PAInput.readLong("Numero do aluno a candidatar-se: ");
+        if(fsm.findCandidatura(numAluno)){
+            fsm.remCandidatura(numAluno);
+        }
+        else{
+            System.out.println("Esse aluno não se esta a candidatar ou não existe");
+        }
+    }
+
+
+    private void editaCandidaturas() {
+        long num =PAInput.readLong("Numero de Aluno: ");
+        if(fsm.findCandidatura(num)){
+            switch (PAInput.chooseOption("Edição Candidatura","remoção de candidatura a um projeto","Adicionar um projeto à candidatura")){
+                case 1 -> fsm.remCandidatura(num,PAInput.readString("ID da Proposta",true));
+                case 2-> fsm.addCandidatura(num,PAInput.readString("ID da Proposta",true));
+            }
+        }
+        else{
+            System.out.println("Aluno não tem candidatura");
+        }
+
+    }
+
+    private void addCandidatura() {
+        long numero = PAInput.readLong("Numero do Aluno numero de aluno do Candidato: ");
+        if(!fsm.findAluno(numero)){
+            System.out.println("Aluno Nao Registado");
+            return;
+        }
+        String projID = PAInput.readString("ID do projeto: ",true);
+        fsm.addCandidatura(numero,projID);
     }
 
     private void atribuicaoPropostaUI() {
